@@ -76,6 +76,11 @@ public class BoletosManager extends PJBankAuthenticatedService {
         params.put("texto", boletoRecebimento.getTexto());
         params.put("grupo", boletoRecebimento.getGrupo());
         params.put("pedido_numero", boletoRecebimento.getPedidoNumero());
+        params.put("dias_indisponibilizar", String.valueOf(boletoRecebimento.getDiasIndisponibilizar()));
+        params.put("dias_juros", boletoRecebimento.getDiasJuros());
+        params.put("dias_multa", boletoRecebimento.getDiasMulta());
+        params.put("nunca_atualizar_boleto", boletoRecebimento.getNuncaAtualizarBoleto());
+        params.put("pix", boletoRecebimento.getPix().getDescricao());
 
         httpPost.setEntity(new StringEntity(params.toString(), StandardCharsets.UTF_8));
 
