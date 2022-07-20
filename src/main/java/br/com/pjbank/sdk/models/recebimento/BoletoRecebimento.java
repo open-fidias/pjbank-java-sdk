@@ -2,6 +2,7 @@ package br.com.pjbank.sdk.models.recebimento;
 
 import br.com.pjbank.sdk.models.common.Boleto;
 import br.com.pjbank.sdk.models.common.Cliente;
+import br.com.pjbank.sdk.models.common.EnumPix;
 
 import java.util.Date;
 
@@ -28,6 +29,11 @@ public class BoletoRecebimento extends Boleto {
     private String texto;
     private String grupo;
     private String pedidoNumero;
+    private int diasIndisponibilizar = 58;
+    private int diasJuros = 1;
+    private int diasMulta = 1;
+    private int nuncaAtualizarBoleto = 0;
+    private EnumPix pix = EnumPix.PIX_E_BOLETO;
 
     /**
      * Dados para resposta
@@ -164,5 +170,96 @@ public class BoletoRecebimento extends Boleto {
 
     public void setLinkGrupo(String linkGrupo) {
         this.linkGrupo = linkGrupo;
+    }
+
+    public int getDiasIndisponibilizar() {
+        return diasIndisponibilizar;
+    }
+
+    /**
+     * Número de dias não pode ser maior do que 58.<br><br>
+     * <b>Importante: </b>Só vai funcionar em boletos emitidos nos bancos: 
+     * <ul>
+     * <li>BPP</li>
+     * <li>Itaú</li>
+     * <li>Santander</li>
+     * </ul>
+     * Para travar um banco basta nos solicitar pelo e-mail 
+     * atendimento@pjbank.com.br e informar qual prefere usar. Isso não impacta 
+     * em nada para você, seu cliente ou quem irá pagar).
+     *
+     * @param diasIndisponibilizar
+     */
+    public void setDiasIndisponibilizar(int diasIndisponibilizar) {
+        this.diasIndisponibilizar = diasIndisponibilizar;
+    }
+
+    public int getDiasJuros() {
+        return diasJuros;
+    }
+
+    /**
+     * Indica a quantidade de dias após o vencimento para se cobrar juros.<br>
+     * Bancos que aceitam o "atraso" na cobrança de juros:
+     * <ul>
+     * <li>001 - Banco do Brasil</li>
+     * <li>033 - Santander</li>
+     * <li>341 - BPP</li>
+     * </ul>
+     *
+     * @param diasJuros
+     */
+    public void setDiasJuros(int diasJuros) {
+        this.diasJuros = diasJuros;
+    }
+
+    public int getDiasMulta() {
+        return diasMulta;
+    }
+
+    /**
+     * Indica a quantidade de dias após o vencimento para se cobrar multa.<br>
+     * Bancos que aceitam o "atraso" na cobrança de multa: 
+     * <ul>
+     * <li>001 - Banco do Brasil</li>
+     * <li>033 - Santander</li>
+     * <li>341 - BPP</li>
+     * </ul>
+     *
+     * @param diasMulta
+     */
+    public void setDiasMulta(int diasMulta) {
+        this.diasMulta = diasMulta;
+    }
+
+    public int getNuncaAtualizarBoleto() {
+        return nuncaAtualizarBoleto;
+    }
+
+    /**
+     * Informar valor 1 para não atualizar o vencimento boleto de forma
+     * automática. Valor padrão 0.
+     *
+     * @param nuncaAtualizarBoleto
+     */
+    public void setNuncaAtualizarBoleto(int nuncaAtualizarBoleto) {
+        this.nuncaAtualizarBoleto = nuncaAtualizarBoleto;
+    }
+
+    public EnumPix getPix() {
+        return pix;
+    }
+
+    /**
+     * Mostra o QR Code no boleto ou substitui o boleto por apenas QR
+     * Code.<br><br>
+     * <b>Importante:</b>
+     * Não gera o QRCode se gerar um boleto vencido
+     * 
+     * @see br.com.pjbank.sdk.models.common.EnumPix
+     * @param pix
+     */
+    public void setPix(EnumPix pix) {
+        this.pix = pix;
     }
 }
