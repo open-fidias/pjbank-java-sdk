@@ -35,6 +35,7 @@ import org.apache.http.client.methods.HttpDelete;
  * @since 1.0
  */
 public class BoletosManager extends PJBankAuthenticatedService {
+
     /**
      * EndPoint a ser requisitado na API
      */
@@ -48,6 +49,7 @@ public class BoletosManager extends PJBankAuthenticatedService {
 
     /**
      * Realiza a emissão do boleto bancário para o cliente informado
+     *
      * @param boletoRecebimento: boleto à ser emitido
      * @return BoletoRecebimento
      */
@@ -76,10 +78,10 @@ public class BoletosManager extends PJBankAuthenticatedService {
         params.put("texto", boletoRecebimento.getTexto());
         params.put("grupo", boletoRecebimento.getGrupo());
         params.put("pedido_numero", boletoRecebimento.getPedidoNumero());
-        params.put("dias_indisponibilizar", String.valueOf(boletoRecebimento.getDiasIndisponibilizar()));
-        params.put("dias_juros", boletoRecebimento.getDiasJuros());
-        params.put("dias_multa", boletoRecebimento.getDiasMulta());
-        params.put("nunca_atualizar_boleto", boletoRecebimento.getNuncaAtualizarBoleto());
+        params.putOpt("dias_indisponibilizar", boletoRecebimento.getDiasIndisponibilizar());
+        params.putOpt("dias_juros", boletoRecebimento.getDiasJuros());
+        params.putOpt("dias_multa", boletoRecebimento.getDiasMulta());
+        params.putOpt("nunca_atualizar_boleto", boletoRecebimento.getNuncaAtualizarBoleto().getValue());
         params.put("pix", boletoRecebimento.getPix().getDescricao());
 
         httpPost.setEntity(new StringEntity(params.toString(), StandardCharsets.UTF_8));
@@ -94,7 +96,7 @@ public class BoletosManager extends PJBankAuthenticatedService {
 
         return boletoRecebimento;
     }
-    
+
     /**
      * Retorna a lista de boletos emitidos por códigos de pedidos
      * @param pedidos: Lista de códigos de pedidos os quais deseja retornar os boletos
@@ -143,25 +145,25 @@ public class BoletosManager extends PJBankAuthenticatedService {
             );
 
             String dataVencimento = itemExtrato.getString("data_vencimento");
-            if (!StringUtils.isBlank(dataVencimento))
+            if (!StringUtils.isBlank(dataVencimento)) 
                 extrato.setDataVencimento(dateFormat.parse(dataVencimento));
 
             String dataPagamento = itemExtrato.getString("data_pagamento");
-            if (!StringUtils.isBlank(dataPagamento))
+            if (!StringUtils.isBlank(dataPagamento)) 
                 extrato.setDataPagamento(dateFormat.parse(dataPagamento));
 
             String dataCredito = itemExtrato.getString("data_credito");
-            if (!StringUtils.isBlank(dataCredito))
+            if (!StringUtils.isBlank(dataCredito)) 
                 extrato.setDataCredito(dateFormat.parse(dataCredito));
 
             extratos.add(extrato);
         }
         return extratos;
     }
-	
-	private void adicionarFiltros(HttpRequestBase httpRequestClient, Date inicio, Date fim, StatusPagamentoBoleto pago, Integer pagina)
+
+    private void adicionarFiltros(HttpRequestBase httpRequestClient, Date inicio, Date fim, StatusPagamentoBoleto pago, Integer pagina)
             throws URISyntaxException {
-		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         URIBuilder uriBuilder = new URIBuilder(httpRequestClient.getURI());
 
         uriBuilder.addParameter("data_inicio", formatter.format(inicio));

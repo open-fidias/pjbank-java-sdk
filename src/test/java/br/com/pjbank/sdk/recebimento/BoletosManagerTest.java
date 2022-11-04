@@ -27,6 +27,8 @@ import br.com.pjbank.sdk.enums.StatusPagamentoBoleto;
 import br.com.pjbank.sdk.exceptions.PJBankException;
 import br.com.pjbank.sdk.models.common.Cliente;
 import br.com.pjbank.sdk.models.common.Endereco;
+import br.com.pjbank.sdk.models.common.EnumAtualizarVencimento;
+import br.com.pjbank.sdk.models.common.EnumPix;
 import br.com.pjbank.sdk.models.recebimento.BoletoInvalido;
 import br.com.pjbank.sdk.models.recebimento.BoletoRecebimento;
 import br.com.pjbank.sdk.models.recebimento.ExtratoBoleto;
@@ -76,6 +78,11 @@ public class BoletosManagerTest {
         boletoRecebimento.setTexto("Teste de emissão de boleto via API");
         boletoRecebimento.setGrupo("Boletos");
         boletoRecebimento.setPedidoNumero("9999");
+        boletoRecebimento.setPix(EnumPix.PIX_E_BOLETO);
+        boletoRecebimento.setDiasIndisponibilizar("10");
+        boletoRecebimento.setDiasJuros("5");
+        boletoRecebimento.setDiasMulta("5");
+        boletoRecebimento.setNuncaAtualizarBoleto(EnumAtualizarVencimento.NAO_ATUALIZAR);
 
         BoletosManager boletosManager = new BoletosManager(this.credencial, this.chave);
 
