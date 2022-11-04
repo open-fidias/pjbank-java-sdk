@@ -2,6 +2,7 @@ package br.com.pjbank.sdk.models.recebimento;
 
 import br.com.pjbank.sdk.models.common.Boleto;
 import br.com.pjbank.sdk.models.common.Cliente;
+import br.com.pjbank.sdk.models.common.EnumAtualizarVencimento;
 import br.com.pjbank.sdk.models.common.EnumPix;
 
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.Date;
  * @since 1.0
  */
 public class BoletoRecebimento extends Boleto {
+
     /**
      * Dados para requisição
      */
@@ -29,10 +31,10 @@ public class BoletoRecebimento extends Boleto {
     private String texto;
     private String grupo;
     private String pedidoNumero;
-    private int diasIndisponibilizar = 58;
-    private int diasJuros = 1;
-    private int diasMulta = 1;
-    private int nuncaAtualizarBoleto = 0;
+    private String diasIndisponibilizar;
+    private String diasJuros;
+    private String diasMulta;
+    private EnumAtualizarVencimento nuncaAtualizarBoleto;
     private EnumPix pix = EnumPix.PIX_E_BOLETO;
 
     /**
@@ -47,7 +49,7 @@ public class BoletoRecebimento extends Boleto {
     }
 
     public BoletoRecebimento(Cliente cliente, double valor, double juros, double multa, double desconto, Date vencimento,
-                             String logoUrl, String texto, String grupo, String pedidoNumero) {
+            String logoUrl, String texto, String grupo, String pedidoNumero) {
         this.cliente = cliente;
         this.valor = valor;
         this.juros = juros;
@@ -172,29 +174,29 @@ public class BoletoRecebimento extends Boleto {
         this.linkGrupo = linkGrupo;
     }
 
-    public int getDiasIndisponibilizar() {
+    public String getDiasIndisponibilizar() {
         return diasIndisponibilizar;
     }
 
     /**
      * Número de dias não pode ser maior do que 58.<br><br>
-     * <b>Importante: </b>Só vai funcionar em boletos emitidos nos bancos: 
+     * <b>Importante: </b>Só vai funcionar em boletos emitidos nos bancos:
      * <ul>
      * <li>BPP</li>
      * <li>Itaú</li>
      * <li>Santander</li>
      * </ul>
-     * Para travar um banco basta nos solicitar pelo e-mail 
-     * atendimento@pjbank.com.br e informar qual prefere usar. Isso não impacta 
+     * Para travar um banco basta nos solicitar pelo e-mail
+     * atendimento@pjbank.com.br e informar qual prefere usar. Isso não impacta
      * em nada para você, seu cliente ou quem irá pagar).
      *
      * @param diasIndisponibilizar
      */
-    public void setDiasIndisponibilizar(int diasIndisponibilizar) {
+    public void setDiasIndisponibilizar(String diasIndisponibilizar) {
         this.diasIndisponibilizar = diasIndisponibilizar;
     }
 
-    public int getDiasJuros() {
+    public String getDiasJuros() {
         return diasJuros;
     }
 
@@ -209,17 +211,17 @@ public class BoletoRecebimento extends Boleto {
      *
      * @param diasJuros
      */
-    public void setDiasJuros(int diasJuros) {
+    public void setDiasJuros(String diasJuros) {
         this.diasJuros = diasJuros;
     }
 
-    public int getDiasMulta() {
+    public String getDiasMulta() {
         return diasMulta;
     }
 
     /**
      * Indica a quantidade de dias após o vencimento para se cobrar multa.<br>
-     * Bancos que aceitam o "atraso" na cobrança de multa: 
+     * Bancos que aceitam o "atraso" na cobrança de multa:
      * <ul>
      * <li>001 - Banco do Brasil</li>
      * <li>033 - Santander</li>
@@ -228,21 +230,21 @@ public class BoletoRecebimento extends Boleto {
      *
      * @param diasMulta
      */
-    public void setDiasMulta(int diasMulta) {
+    public void setDiasMulta(String diasMulta) {
         this.diasMulta = diasMulta;
     }
 
-    public int getNuncaAtualizarBoleto() {
+    public EnumAtualizarVencimento getNuncaAtualizarBoleto() {
         return nuncaAtualizarBoleto;
     }
 
     /**
-     * Informar valor 1 para não atualizar o vencimento boleto de forma
-     * automática. Valor padrão 0.
+     * É utilizado para que o vencimento do boleto não seja atualizado
+     * automaticamente, caso caia em um fim de semana ou feriado.
      *
      * @param nuncaAtualizarBoleto
      */
-    public void setNuncaAtualizarBoleto(int nuncaAtualizarBoleto) {
+    public void setNuncaAtualizarBoleto(EnumAtualizarVencimento nuncaAtualizarBoleto) {
         this.nuncaAtualizarBoleto = nuncaAtualizarBoleto;
     }
 
@@ -251,11 +253,12 @@ public class BoletoRecebimento extends Boleto {
     }
 
     /**
-     * Mostra o QR Code no boleto ou substitui o boleto por apenas QR
+     * <code>EnumPix.PIX</code> - Substitui o boleto pelo QRCode do Pix<br>
+     * <code>EnumPix.PIX_E_BOLETO</code> - Imprimi o QRCode no boleto
      * Code.<br><br>
      * <b>Importante:</b>
      * Não gera o QRCode se gerar um boleto vencido
-     * 
+     *
      * @see br.com.pjbank.sdk.models.common.EnumPix
      * @param pix
      */
