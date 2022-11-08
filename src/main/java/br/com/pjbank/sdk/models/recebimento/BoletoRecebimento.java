@@ -34,7 +34,7 @@ public class BoletoRecebimento extends Boleto {
     private String diasIndisponibilizar;
     private String diasJuros;
     private String diasMulta;
-    private EnumAtualizarVencimento nuncaAtualizarBoleto;
+    private EnumAtualizarVencimento nuncaAtualizarBoleto = EnumAtualizarVencimento.ATUALIZAR;
     private EnumPix pix = EnumPix.PIX_E_BOLETO;
 
     /**
@@ -240,7 +240,9 @@ public class BoletoRecebimento extends Boleto {
 
     /**
      * É utilizado para que o vencimento do boleto não seja atualizado
-     * automaticamente, caso caia em um fim de semana ou feriado.
+     * automaticamente, caso caia em um fim de semana ou feriado. 
+     * <code>EnumAtualizarVencimento.ATUALIZAR</code><br>
+     * <code>EnumAtualizarVencimento.NAO_ATUALIZAR</code>
      *
      * @param nuncaAtualizarBoleto
      */
