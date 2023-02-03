@@ -35,7 +35,7 @@ public class BoletoRecebimento extends Boleto {
     private String diasJuros;
     private String diasMulta;
     private EnumAtualizarVencimento nuncaAtualizarBoleto = EnumAtualizarVencimento.ATUALIZAR;
-    private EnumPix pix = EnumPix.PIX_E_BOLETO;
+    private EnumPix pix;
 
     /**
      * Dados para resposta
