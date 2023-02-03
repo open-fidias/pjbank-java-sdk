@@ -20,13 +20,22 @@ public enum EnumPix {
      */
     PIX_E_BOLETO("pix-e-boleto");
 
-    private final String descricao;
+    private final String value;
 
-    private EnumPix(String descricao) {
-        this.descricao = descricao;
+    private EnumPix(String value) {
+        this.value = value;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getValue() {
+        return value;
+    }
+
+    public static EnumPix fromValue(String myValue) {
+        for (EnumPix pix : values()) {
+            if (myValue.equals(pix.value)) {
+                return pix;
+            }
+        }
+        return null;
     }
 }
