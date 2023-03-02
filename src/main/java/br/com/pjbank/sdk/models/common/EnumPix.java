@@ -32,7 +32,7 @@ public enum EnumPix {
 
     public static EnumPix fromValue(String myValue) {
         for (EnumPix pix : values()) {
-            if (myValue.equals(pix.value)) {
+            if (pix.value.equals(myValue)) {
                 return pix;
             }
         }
